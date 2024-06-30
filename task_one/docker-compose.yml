@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   postgres:
     image: postgres:13
@@ -15,11 +15,12 @@ services:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
       AIRFLOW__CORE__FERNET_KEY: ''
-      AIRFLOW__CORE__LOAD_EXAMPLES: 'true'
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+      - ./scripts:/opt/airflow/scripts  # add scripts file to docker container
       - ./entrypoint.sh:/entrypoint.sh
     ports:
       - "8080:8080"
@@ -32,12 +33,13 @@ services:
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-      AIRFLOW__CORE__FERNET_KEY: ''
+      AIRFLOW__CORE__FERNET_KEY: 'YOUR_FERNET_KEY'
       AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+      - ./scripts:/opt/airflow/scripts
     depends_on:
       - postgres
-    command: "airflow scheduler"
+    command: ["airflow", "scheduler"]
