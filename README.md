@@ -10,7 +10,8 @@ cd .\task_one\
 ```sh
 docker compose up
 ```
-- connect to locally runnning postgresql accroding to creds in **load_csv.sh** and run following script:
+- restart scheduler if needed in the first run
+- connect to locally running postgresql according to creds in **load_csv.sh** and run following script:
 ```sql
 select * from public.events
 ```
@@ -27,3 +28,18 @@ select * from public.events
     - also there is a way to setup a trigger which will update the data mart table in case a row was inserted into *withdrawals* or *deposits* tables
 - in case of usage external tools:
     - airflow (+dbt) or any orchestrator other orchestrator can be used
+
+### task 3
+- navigate to task three folder
+```sh
+cd .\task_three\
+```
+- start airflow, postgre in docker
+```sh
+docker compose up
+```
+- restart scheduler if needed in the first run
+- input **diagnostics.csv** file:
+![diagnostics.csv](image.png)
+- output station_errors table:
+![alt text](image-1.png)
